@@ -41,7 +41,7 @@ def batchDownload(blocks, path):
         download(block[1], ''.join([path, '{0}.pdf'.format(block[0])]))
         if block[2]:
             download(block[2], ''.join([path, '{0}.pdf'.format(block[0]+'(supp)')]))
-        print 'downloading No.'+str(count)
+        print 'downloading No.'+str(count)+'/'+str(len(blocks))
         count = count + 1
 
 url = 'http://openaccess.thecvf.com/CVPR2018.py'
