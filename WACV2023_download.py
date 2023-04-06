@@ -9,10 +9,10 @@ def getHtmlContent(url):
     return page.read()
 
 def getBlock(html):
-    re_block = r"<dt class=\"ptitle\"><br><a(.*?)</div>\n</div>.*?\n</dd>"
+    re_block = r"<dt class=\"ptitle\"><br><a(.*?)</dd>\n<dt"
     re_title = r'html">(.*?)</a></dt>'
-    re_paper = r'\[<a href="(.*?)">pdf</a>\]'
-    re_supp = r'\[<a href="(.*?)">supp</a>\]'
+    re_paper = r'\[<a href="(.*?)">pdf</a>'
+    re_supp = r'\[<a href="(\S+\.pdf)">supp</a>'
     block = re.compile(re_block, re.S)
     blocks = re.findall(block, html)
     msg = []
@@ -22,7 +22,7 @@ def getBlock(html):
         title = title.replace(',', '')
 	paper_url = re.findall(re.compile(re_paper, re.S), temp)[0]
         paper = 'https://openaccess.thecvf.com/'+paper_url
-        if re.findall(re.compile(re_supp, re.S), temp):
+        if re.findall(re_supp, temp):
             supp = 'https://openaccess.thecvf.com/'+re.findall(re.compile(re_supp, re.S), temp)[0]
         else:
             supp = ''
@@ -39,6 +39,8 @@ def download(url, fileName):
 def batchDownload(blocks, path):
     count = 1
     for block in blocks:
+	#print block[1]
+	#print block[2]
         download(block[1], ''.join([path, '{0}.pdf'.format(block[0])]))
         if block[2]:
             download(block[2], ''.join([path, '{0}.pdf'.format(block[0]+'(supp)')]))
@@ -48,4 +50,4 @@ def batchDownload(blocks, path):
 url = 'https://openaccess.thecvf.com/WACV2023'
 html = getHtmlContent(url)
 blocks = getBlock(html)
-batchDownload(blocks, './')
+batchDownload(blocks, './WACV2023/')

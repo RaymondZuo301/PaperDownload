@@ -47,7 +47,7 @@ def batchDownload(blocks, path):
         print 'downloading No.'+str(count)+'/'+str(len(blocks))+': '+block[0]
         count = count + 1
 
-url = 'https://openaccess.thecvf.com/CVPR2022?day=all'
+url = 'https://openaccess.thecvf.com/CVPR2021?day=all'
 html = getHtmlContent(url)
 blocks = getBlock(html)
-batchDownload(blocks, './CVPR2022/')
+batchDownload(blocks, './CVPR2021/')
